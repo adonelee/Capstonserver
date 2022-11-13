@@ -18,7 +18,7 @@ public class Capston_Connection {
 		try
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");	
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportsmatching", "root", "1234");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportsmatching_cap", "root", "1234");
 			return conn;
 		} catch (Exception e)
 		{
