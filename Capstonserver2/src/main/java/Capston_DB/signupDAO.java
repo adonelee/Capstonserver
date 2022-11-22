@@ -5,7 +5,7 @@ import java.sql.*;
 public class signupDAO {
 		//test code
 		public String SignUP(String id, String pw, String name, String sex, String phone) {
-			String SQL1 = "select * from user where USER_ID = ?";
+			String SQL1 = "select * from user where user_id = ?";
 			String SQL2 = "insert into user values(?,?,?,?,?)";
 			
 			try {
