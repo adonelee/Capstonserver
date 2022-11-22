@@ -24,9 +24,9 @@ public class signupDAO {
 				    	ptstn.close();
 				    	PreparedStatement ptstm = conn.prepareStatement(SQL2);
 						
-						ptstm.setString(1, name);
-						ptstm.setString(2, id);
-						ptstm.setString(3, pw);
+						ptstm.setString(1, id);
+						ptstm.setString(2, pw);
+						ptstm.setString(3, name);
 						ptstm.setString(4, sex);
 						ptstm.setString(5, phone);
 					    ptstm.executeUpdate();
