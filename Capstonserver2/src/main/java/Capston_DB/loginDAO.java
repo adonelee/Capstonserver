@@ -7,7 +7,7 @@ public class loginDAO {
 	public String login(String userID, String userPW)
 	{
 		
-		String SQL1 = "SELECT user_id, user_pw FROM user WHERE user_id = ? AND user_pw = ?";
+		String SQL1 = "SELECT * FROM user WHERE user_id = ? AND user_pw = ?";
 		
 		try {
 			Connection conn = Capston_Connection.GetDB();
@@ -19,8 +19,14 @@ public class loginDAO {
 			ResultSet rs = ptstn.executeQuery();
 			
 			if(rs.next()) {
+				String id = rs.getString("user_id");
+				String name = rs.getString("user_name");
+				String sex = rs.getString("user_sex");
+				String phone = rs.getString("user_phone");
+				
+				String result = "로그인성공"+ "," + id+ "," + name+ "," + sex +","+ phone;
 				ptstn.close();
-				return "로그인성공";
+				return result;
 			}else {
 				ptstn.close();
 				return "로그인실패";

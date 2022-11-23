@@ -15,6 +15,6 @@ System.out.println(sex);
 System.out.println(phone);
 
 String result = new signupDAO().SignUP(id,pw,name,sex,phone);
-
+System.out.println(result);
 out.print(result);
 %>
