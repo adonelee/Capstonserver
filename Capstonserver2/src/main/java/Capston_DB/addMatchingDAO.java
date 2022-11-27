@@ -5,9 +5,9 @@ import java.sql.*;
 public class addMatchingDAO {
 		//test code
 		public String AddMatching(String match_owner, String match_title, int exercise_type, 
-				int match_type, String match_time, int match_persons, String match_sex) {
+				int match_type, String match_time, int match_persons, String match_sex, String match_major) {
 			String SQL1 = "select MIN(match_number) from match_info";
-			String SQL2 = "insert into match_info values(?,?,?,?,?,?,?,?)";
+			String SQL2 = "insert into match_info values(?,?,?,?,?,?,?,?,?)";
 			String SQL3 = "select MIN(match_code) from match_member";
 			String SQL4 = "insert into match_member values(?,?,?)";
 			
@@ -33,6 +33,7 @@ public class addMatchingDAO {
 						ptstm.setString(6, match_time);
 						ptstm.setInt(7, match_persons);
 						ptstm.setString(8, match_sex);
+						ptstm.setString(9,  match_major);
 						
 					    ptstm.executeUpdate();
 					    

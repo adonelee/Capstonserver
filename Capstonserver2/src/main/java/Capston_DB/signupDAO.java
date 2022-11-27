@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class signupDAO {
 		//test code
-		public String SignUP(String id, String pw, String name, String sex, String phone) {
+		public String SignUP(String id, String pw, String name, String sex,String major, String phone) {
 			String SQL1 = "select * from user where user_id = ?";
-			String SQL2 = "insert into user values(?,?,?,?,?)";
+			String SQL2 = "insert into user values(?,?,?,?,?,?)";
 			
 			try {
 			    //DB 연결 
@@ -28,7 +28,8 @@ public class signupDAO {
 						ptstm.setString(2, pw);
 						ptstm.setString(3, name);
 						ptstm.setString(4, sex);
-						ptstm.setString(5, phone);
+						ptstm.setString(5, major);
+						ptstm.setString(6, phone);
 					    ptstm.executeUpdate();
 					    
 					    Statement state = conn.createStatement();

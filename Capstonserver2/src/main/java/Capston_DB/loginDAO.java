@@ -22,9 +22,10 @@ public class loginDAO {
 				String id = rs.getString("user_id");
 				String name = rs.getString("user_name");
 				String sex = rs.getString("user_sex");
+				String major = rs.getString("user_major");
 				String phone = rs.getString("user_phone");
 				
-				String result = "로그인성공"+ "," + id+ "," + name+ "," + sex +","+ phone;
+				String result = "로그인성공"+ "," + id+ "," + name+ "," + sex +","+ major+","+ phone;
 				ptstn.close();
 				return result;
 			}else {
