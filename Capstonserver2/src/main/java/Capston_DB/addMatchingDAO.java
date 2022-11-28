@@ -4,11 +4,11 @@ import java.sql.*;
 
 public class addMatchingDAO {
 		//test code
-		public String AddMatching(String match_owner, String match_title, int exercise_type, 
-				int match_type, String match_time, int match_persons, String match_sex, String match_major) {
-			String SQL1 = "select MIN(match_number) from match_info";
+		public String AddMatching(String match_owner, String match_title, String exercise_type, 
+				String match_type, String match_time, int match_persons, String match_sex, String match_major) {
+			String SQL1 = "select MAX(match_number) from match_info";
 			String SQL2 = "insert into match_info values(?,?,?,?,?,?,?,?,?)";
-			String SQL3 = "select MIN(match_code) from match_member";
+			String SQL3 = "select MAX(match_number) from match_member";
 			String SQL4 = "insert into match_member values(?,?,?)";
 			
 			try {
@@ -18,7 +18,7 @@ public class addMatchingDAO {
 				ResultSet rs = ptstn.executeQuery();
 				
 				//매칭번호 
-				int match_number = rs.getInt(0) + 1;
+				int match_number = rs.getInt(1) + 1;
 				
 				ptstn.close();
 				    try {
@@ -28,8 +28,8 @@ public class addMatchingDAO {
 						ptstm.setInt(1, match_number);
 						ptstm.setString(2, match_owner);
 						ptstm.setString(3, match_title);
-						ptstm.setInt(4, exercise_type);
-						ptstm.setInt(5, match_type);
+						ptstm.setString(4, exercise_type);
+						ptstm.setString(5, match_type);
 						ptstm.setString(6, match_time);
 						ptstm.setInt(7, match_persons);
 						ptstm.setString(8, match_sex);
@@ -46,7 +46,7 @@ public class addMatchingDAO {
 					    	PreparedStatement ptstx = conn.prepareStatement(SQL3);
 							ResultSet ra = ptstx.executeQuery();
 							
-							int member_code = ra.getInt(0) + 1;
+							int member_code = ra.getInt(1) + 1;
 							
 							ptstx.close();
 							
