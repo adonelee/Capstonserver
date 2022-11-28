@@ -33,9 +33,11 @@ public class matchInfoDAO {
 		
 		
 		public String MyMatching(String user_id) {
-			String SQL1 = "select match_number, creater_id, match_title, match_sex "
-					+ "from match_info.match_number = match_member.match_number"
-					+ " where match_member.user_id = " + user_id;
+			String SQL1 = "SELECT match_info.match_number, match_info.creater_id, match_info.match_title, match_info.match_sex "
+					+ "FROM match_info "
+					+ "JOIN match_member "
+					+ "ON match_info.match_number = match_member.match_number "
+					+ "WHERE match_member.user_id = 'adone'";
 			
 			String matchlist = "";
 			try {
