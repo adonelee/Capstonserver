@@ -5,8 +5,8 @@ import java.sql.*;
 public class matchInformationDAO{
 	public String getMatchInformation(int match_number) {
 		String SQL1 = "select match_number, creater_id, match_title"
-				+ "exercise_type, match_type, match_time, recruit_person"
-				+ "match_sex, match_major from match_info where = match_number = 'match_number'";
+				+ " exercise_type, match_type, match_time, recruit_person"
+				+ " match_sex, match_major from match_info where = match_number = ?";
 		
 		String matchInformation = "";
 		
@@ -15,6 +15,8 @@ public class matchInformationDAO{
 			Connection conn = Capston_Connection.GetDB();
 			PreparedStatement ptstn = conn.prepareStatement(SQL1);
 			ResultSet rs = ptstn.executeQuery();
+			
+			ptstn.setInt(1, match_number);
 			
 			rs.next(); 
 				
