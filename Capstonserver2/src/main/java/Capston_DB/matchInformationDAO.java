@@ -16,12 +16,11 @@ public class matchInformationDAO{
 			PreparedStatement ptstn = conn.prepareStatement(SQL1);
 			ResultSet rs = ptstn.executeQuery();
 			
-			while(rs.next()) {
-				//매칭번호 : 생성자, 매치타이틀, 운동 종류, 매칭 종류, 매칭 시간, 모집 인원, 성별, 학과 
-				matchInformation += rs.getInt(1) +":"+ rs.getString(2) +","+ rs.getString(3) +","+ rs.getString(4)
-				+","+ rs.getString(5) +","+ rs.getString(6) +","+ rs.getInt(7) +","+ rs.getString(8) +","+ rs.getString(9);
-			}
-			
+			rs.next(); 
+				
+			//매칭번호 : 생성자, 매치타이틀, 운동 종류, 매칭 종류, 매칭 시간, 모집 인원, 성별, 학과 
+			matchInformation += rs.getInt(1) +":"+ rs.getString(2) +","+ rs.getString(3) +","+ rs.getString(4)
+			+","+ rs.getString(5) +","+ rs.getString(6) +","+ rs.getInt(7) +","+ rs.getString(8) +","+ rs.getString(9);
 			
 			ptstn.close();
 			    
