@@ -10,20 +10,23 @@ public class addMatchingDAO {
 			String SQL2 = "insert into match_info values(?,?,?,?,?,?,?,?,?)";
 			String SQL3 = "select MAX(match_number) from match_member";
 			String SQL4 = "insert into match_member values(?,?,?)";
+			Connection conn;
+			int match_number;
 			
 			try {
 			    //DB 연결 
-				Connection conn = Capston_Connection.GetDB();
+				conn = Capston_Connection.GetDB();
 				PreparedStatement ptstn = conn.prepareStatement(SQL1);
 				ResultSet rs = ptstn.executeQuery();
 				
 				//매칭번호 
-				int match_number = rs.getInt(1) + 1;
-				
+				rs.next();
+				match_number = rs.getInt(1) + 1;
+				PreparedStatement ptstm;
 				ptstn.close();
 				    try {
 				    	
-				    	PreparedStatement ptstm = conn.prepareStatement(SQL2);
+				    	ptstm = conn.prepareStatement(SQL2);
 						
 						ptstm.setInt(1, match_number);
 						ptstm.setString(2, match_owner);
@@ -42,43 +45,46 @@ public class addMatchingDAO {
 					    state.close();
 					    ptstm.close();
 						
-					    try {
-					    	PreparedStatement ptstx = conn.prepareStatement(SQL3);
-							ResultSet ra = ptstx.executeQuery();
-							
-							int member_code = ra.getInt(1) + 1;
-							
-							ptstx.close();
-							
-							try {
-								PreparedStatement ptstv = conn.prepareStatement(SQL4);		
-								ptstv.setInt(1, member_code);
-							    ptstv.setInt(2, match_number);
-							    ptstv.setString(3, match_owner);
-							
-							    ptstv.executeUpdate();
-		
-							    ptstv.close();
-							    
-						    }catch(Exception e){
-						    	System.out.println(e.getMessage());
-								return "삽입실패";
-							
-						     }
-							return "삽입성공";
-						
-					    }catch (Exception e){
-							System.out.println(e.getMessage());
-							return "검색실패";
-						}
+					    
 				    
 				    }catch(Exception e) {
 				    	System.out.println(e.getMessage());
-				    	return "삽입실패";	    
+				    	return "sql2실패";	    
 				    }
 			}catch(Exception e) {
 				System.out.println(e.getMessage());
-				return "검색실패";
+				return "sql1실패";
+			}
+			
+			try {
+		    	PreparedStatement ptstx = conn.prepareStatement(SQL3);
+				ResultSet ra = ptstx.executeQuery();
+				
+				ra.next();
+				int member_code = ra.getInt(1) + 1;
+				
+				ptstx.close();
+				
+				try {
+					PreparedStatement ptstv = conn.prepareStatement(SQL4);		
+					ptstv.setInt(1, member_code);
+				    ptstv.setInt(2, match_number);
+				    ptstv.setString(3, match_owner);
+				
+				    ptstv.executeUpdate();
+
+				    ptstv.close();
+				    
+			    }catch(Exception e){
+			    	System.out.println(e.getMessage());
+					return "sql4실패";
+				
+			     }
+				return "삽입성공";
+			
+		    }catch (Exception e){
+				System.out.println(e.getMessage());
+				return "sql3실패";
 			}
 		}	
 }
