@@ -14,9 +14,11 @@ public class matchInformationDAO{
 		    //DB 연결 
 			Connection conn = Capston_Connection.GetDB();
 			PreparedStatement ptstn = conn.prepareStatement(SQL1);
-			ResultSet rs = ptstn.executeQuery();
+			
 			
 			ptstn.setInt(1, match_number);
+			
+			ResultSet rs = ptstn.executeQuery();
 			
 			rs.next(); 
 				

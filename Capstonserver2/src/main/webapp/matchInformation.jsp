@@ -2,7 +2,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 
-int match_number = request.getParameter("match_number");
+int match_number = Integer.parseInt(request.getParameter("match_number"));
 
 System.out.println(match_number);
 
