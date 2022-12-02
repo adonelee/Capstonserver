@@ -4,11 +4,13 @@ import java.sql.*;
 
 public class authorityDAO {
     //생성자 아이디로 만들어진 매칭번호 찾기 
-	public String findMatchNum(String creater_id){
+	public String[] findUserId(String creater_id){
 		String SQL1 = "select match_number from match_info where creater_id = ?";
 		
-		String MatchNum = "";
-		
+		int[] matchNums1 = null;
+		String[] userIds = null;
+		String matchNums2 = "";
+	
 		try {
 		    //DB 연결 
 			Connection conn = Capston_Connection.GetDB();
@@ -19,55 +21,59 @@ public class authorityDAO {
 			
 			//매칭을 두개이상 만들 수 있으므로 반복문으로 처리  
 			while(rs.next()) {
-				// 10000/10001 이런식으로 쌓일거 예
-				MatchNum += rs.getInt(1);
-				MatchNum += "/";
+				matchNums2 += rs.getInt(1);
+				matchNums2 += "/";
 			}
 			
+			//split 함수로 몇개의 값이 들어왔는지 확인 
+			int i = matchNums2.split(matchNums2, '/').length;
+			//들어온 매칭넘버 수 만큼 배열 생성 
+			matchNums1 = new int[i];
+			userIds = new String[i];
 			
-			ptstn.close();
-			    
-			return MatchNum;
+			for(int num : matchNums1) {
+				String SQL2 = "select user_id from match_request where match_number = ?";
+				
+				try {
+				    //DB 연결 
+					Connection conn1 = Capston_Connection.GetDB();
+					PreparedStatement ptstm = conn1.prepareStatement(SQL2);
+					ResultSet rs1 = ptstm.executeQuery();
+					
+					ptstm.setInt(1, num);
+					
+					rs1.next(); 
+					//유저아이디 저장하는데에 배열로 저장 
+					userIds[i] = rs.getString(1);
+					//한 사이클 돌면 i증
+					i++;
+					
+					ptstn.close();
+				    
+					return userIds;
+					
+				}catch(Exception e) {
+					System.out.println(e.getMessage());
+					return userIds;
+					}
+			}
+			ptstn.close();	    
+			return userIds;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
-			return "검색실패";
+			return userIds;
 		}
 	}
 	
-	//매칭번호로 가입 리퀘스트에 있는 user_id 찾기 
-	public String authorityInfo(int match_number) {
-		String SQL1 = "select user_id from match_request where match_number = ?";
-		
-		
-	    String user_id ="";
-		
-		try {
-		    //DB 연결 
-			Connection conn = Capston_Connection.GetDB();
-			PreparedStatement ptstn = conn.prepareStatement(SQL1);
-			ResultSet rs = ptstn.executeQuery();
-			
-			ptstn.setInt(1, match_number);
-			
-			rs.next(); 
-			
-			user_id += rs.getString(1);
-			
-			ptstn.close();
-		    
-			return user_id;
-			
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-			return "검색실패";
-			}
-		}
 	
-	//찾은 유저 아이디로 정보 추출 이름,학과,전화번
-	public String authorityUserInfo(String user_id) {
+	//배열로 넘어온 유저 정보를 찾
+	public String authorityUserInfo(String[] user_ids) {
 		String SQL1 = "select user_name, user_major, user_phone from user where user_id = ?";
 		
+		//넘어온 배열의 길이 확
+		int num = user_ids.length;
 		String UserInfo = "";
+		int i;
 		
 		try {
 		    //DB 연결 
@@ -75,12 +81,12 @@ public class authorityDAO {
 			PreparedStatement ptstn = conn.prepareStatement(SQL1);
 			ResultSet rs = ptstn.executeQuery();
 			
-			ptstn.setString(1, user_id);
-			
-			rs.next(); 
-			
-			UserInfo += rs.getString(1) +","+ rs.getString(2) +","+ rs.getString(3);
-			
+			for(i=0;i<num;i++) {
+				ptstn.setString(1, user_ids[i]);
+				rs.next(); 
+				UserInfo += rs.getString(1) +","+ rs.getString(2) +","+ rs.getString(3);
+				UserInfo += "/";
+			}
 			ptstn.close();
 		    
 			return UserInfo;

@@ -2,22 +2,15 @@
 <%
  request.setCharacterEncoding("UTF-8");
 
-String creater_id = request.getParamerter("creater_id");
-
-System.out.println(creater_id);
-
-String matchNum = new authorityDAO().findMatchNum(creater_id);
-
-//매칭이 2개이상 나오면 해결하기 위한 함
-if(matchNum.contains("/")){
-	
-}
-
-String userId = new authorityDAO().authorityInfo(Integer.parseInt(matchNum));
-
-String userInfo = new authorityDAO().authorityUserInfo(userId);
-
-System.out.println(userInfo);
-out.println(userInfo);
-
+ String creater_id = request.getParameter(creater_id);
+ 
+ System.out.println(creater_id);
+ 
+ String[] user_Ids = new authorityDAO().findUserId(creater_id);
+ 
+ String result = new authorityDAO().authorityUserInfo(user_Ids);
+ 
+ System.out.println(result);
+ 
+ out.print(result);
 %>
