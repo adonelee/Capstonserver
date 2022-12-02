@@ -8,7 +8,7 @@ public class addMatchingDAO {
 				String match_type, String match_time, int match_persons, String match_sex, String match_major) {
 			String SQL1 = "select MAX(match_number) from match_info";
 			String SQL2 = "insert into match_info values(?,?,?,?,?,?,?,?,?)";
-			String SQL3 = "select MAX(match_number) from match_member";
+			String SQL3 = "select MAX(member_code) from match_member";
 			String SQL4 = "insert into match_member values(?,?,?)";
 			Connection conn;
 			int match_number;
