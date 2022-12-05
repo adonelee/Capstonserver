@@ -3,12 +3,16 @@ package Capston_DB;
 import java.sql.*;
 
 public class matchInformationDAO{
+	
+	String matchInformation = "";
+	String ParticipantsInformation = "";
+	String[] ParticipantsInfo;
+	String PI;
+	
 	public String getMatchInformation(int match_number) {
 		String SQL1 = "select match_number, creater_id, match_title,"
 				+ " exercise_type, match_type, match_time, recruit_person,"
 				+ " match_sex, match_major from match_info where match_number = ?";
-		
-		String matchInformation = "";
 		
 		try {
 		    //DB 연결 
@@ -34,4 +38,52 @@ public class matchInformationDAO{
 			return "검색실패";
 		}
 	}
+	
+	public String getParticipantsInformation(int match_number) {
+		String SQL1 = "select user_id from match_member where match_number = ?";
+		
+		try {
+		    //DB 연결 
+			Connection conn = Capston_Connection.GetDB();
+			PreparedStatement ptstn = conn.prepareStatement(SQL1);
+			
+			
+			ptstn.setInt(1, match_number);
+			
+			ResultSet rs = ptstn.executeQuery();
+					
+			while(rs.next()) {
+				ParticipantsInformation += rs.getString(1);
+				ParticipantsInformation += "/";
+			}
+		
+			ptstn.close();
+			    
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			return "검색실패";
+		}
+		try {
+			Connection conn = Capston_Connection.GetDB();
+			
+			ParticipantsInfo = ParticipantsInformation.split("/");
+			int num = ParticipantsInfo.length;
+			
+			
+			for(int i=1; i<=num; i++) {
+				String SQL2 = "select user_name, user_phone, user_major from user where user_id = ?";
+				PreparedStatement ptstm = conn.prepareStatement(SQL2);
+				ptstm.setString(1, ParticipantsInfo[i]);
+				ResultSet rd = ptstm.executeQuery();
+				PI += rd.getString(1) + "," + rd.getString(2) + "," + rd.getString(3);
+				PI += "/";
+				}
+			
+			return PI;			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			return "검색실패";
+		}
+	}
 }
+ 
