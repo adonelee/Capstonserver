@@ -7,7 +7,7 @@ public class authorityDAO {
 	public String[] findUserId(String creater_id){
 		String SQL1 = "select match_number from match_info where creater_id = ?";
 		
-		int[] matchNums1 = null;
+		String[] matchNums1 = null;
 		String[] userIds = null;
 		String matchNums2 = "";
 	
@@ -28,10 +28,13 @@ public class authorityDAO {
 			//split 함수로 몇개의 값이 들어왔는지 확인 
 			int i = matchNums2.split(matchNums2, '/').length;
 			//들어온 매칭넘버 수 만큼 배열 생성 
-			matchNums1 = new int[i];
+			matchNums1 = new String[i];
 			userIds = new String[i];
 			
-			for(int num : matchNums1) {
+			matchNums1 = matchNums2.split("/");
+			
+			
+			for(String num : matchNums1) {
 				String SQL2 = "select user_id from match_request where match_number = ?";
 				
 				try {
@@ -40,7 +43,7 @@ public class authorityDAO {
 					PreparedStatement ptstm = conn1.prepareStatement(SQL2);
 					ResultSet rs1 = ptstm.executeQuery();
 					
-					ptstm.setInt(1, num);
+					ptstm.setString(1, num);
 					
 					rs1.next(); 
 					//유저아이디 저장하는데에 배열로 저장 
@@ -70,7 +73,7 @@ public class authorityDAO {
 	public String authorityUserInfo(String[] user_ids) {
 		String SQL1 = "select user_name, user_major, user_phone from user where user_id = ?";
 		
-		//넘어온 배열의 길이 확
+		//넘어온 배열의 길이 확인 
 		int num = user_ids.length;
 		String UserInfo = "";
 		int i;
