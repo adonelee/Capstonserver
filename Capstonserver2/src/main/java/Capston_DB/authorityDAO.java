@@ -15,9 +15,10 @@ public class authorityDAO {
 		    //DB 연결 
 			Connection conn = Capston_Connection.GetDB();
 			PreparedStatement ptstn = conn.prepareStatement(SQL1);
+			ptstn.setString(1, creater_id);
 			ResultSet rs = ptstn.executeQuery();
 			
-			ptstn.setString(1, creater_id);
+			
 			
 			//매칭을 두개이상 만들 수 있으므로 반복문으로 처리  
 			while(rs.next()) {
@@ -32,7 +33,7 @@ public class authorityDAO {
 			userIds = new String[i];
 			
 			matchNums1 = matchNums2.split("/");
-			
+			i = 0;
 			
 			for(String num : matchNums1) {
 				String SQL2 = "select user_id from match_request where match_number = ?";
@@ -41,13 +42,14 @@ public class authorityDAO {
 				    //DB 연결 
 					Connection conn1 = Capston_Connection.GetDB();
 					PreparedStatement ptstm = conn1.prepareStatement(SQL2);
+					ptstm.setString(1, num);
 					ResultSet rs1 = ptstm.executeQuery();
 					
-					ptstm.setString(1, num);
+					
 					
 					rs1.next(); 
 					//유저아이디 저장하는데에 배열로 저장 
-					userIds[i] = num + "&" + rs.getString(1);
+					userIds[i] = num + "&" + rs1.getString(1);
 					//한 사이클 돌면 i증
 					i++;
 					
@@ -81,17 +83,23 @@ public class authorityDAO {
 		try {
 		    //DB 연결 
 			Connection conn = Capston_Connection.GetDB();
-			PreparedStatement ptstn = conn.prepareStatement(SQL1);
-			ResultSet rs = ptstn.executeQuery();
+			
 			
 			for(i=0;i<num;i++) {
-				String[] infos = user_ids[i].split("&");
-				ptstn.setString(1, infos[1]);
-				rs.next(); 
-				UserInfo += infos[0]+","+rs.getString(1) +","+rs.getString(2) +","+ rs.getString(3) +","+ rs.getString(4);
-				UserInfo += "/";
+				if(user_ids[i] != null) {
+					PreparedStatement ptstn = conn.prepareStatement(SQL1);
+					
+					String[] infos = user_ids[i].split("&");
+					ptstn.setString(1, infos[1]);
+					ResultSet rs = ptstn.executeQuery();
+					rs.next(); 
+					UserInfo += infos[0] +","+rs.getString(1) +","+rs.getString(2) +","+ rs.getString(3) +","+ rs.getString(4);
+					UserInfo += "/";
+					ptstn.close();
+				
+				}
 			}
-			ptstn.close();
+			
 		    
 			return UserInfo;
 			
