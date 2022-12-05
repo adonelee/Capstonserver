@@ -47,7 +47,7 @@ public class authorityDAO {
 					
 					rs1.next(); 
 					//유저아이디 저장하는데에 배열로 저장 
-					userIds[i] = rs.getString(1);
+					userIds[i] = num + "&" + rs.getString(1);
 					//한 사이클 돌면 i증
 					i++;
 					
@@ -71,7 +71,7 @@ public class authorityDAO {
 	
 	//배열로 넘어온 유저 정보를 찾
 	public String authorityUserInfo(String[] user_ids) {
-		String SQL1 = "select user_name, user_major, user_phone from user where user_id = ?";
+		String SQL1 = "select user_id, user_name, user_major, user_phone from user where user_id = ?";
 		
 		//넘어온 배열의 길이 확인 
 		int num = user_ids.length;
@@ -85,9 +85,10 @@ public class authorityDAO {
 			ResultSet rs = ptstn.executeQuery();
 			
 			for(i=0;i<num;i++) {
-				ptstn.setString(1, user_ids[i]);
+				String[] infos = user_ids[i].split("&");
+				ptstn.setString(1, infos[1]);
 				rs.next(); 
-				UserInfo += rs.getString(1) +","+ rs.getString(2) +","+ rs.getString(3);
+				UserInfo += infos[0]+","+rs.getString(1) +","+rs.getString(2) +","+ rs.getString(3) +","+ rs.getString(4);
 				UserInfo += "/";
 			}
 			ptstn.close();
