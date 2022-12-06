@@ -7,7 +7,7 @@ public class matchAcceptDAO {
 	public String accept_matching(String match_number, String user_id)
 	{
 		Connection conn;
-		String SQL1 = "SELECT MIN(member_code) FROM match_member";
+		String SQL1 = "SELECT MAX(member_code) FROM match_member";
 		String SQL2 = "INSERT INTO match_member VALUES(?, ?, ?)";
 		int member_code;
 		try {
