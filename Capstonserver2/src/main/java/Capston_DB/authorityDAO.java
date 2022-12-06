@@ -30,22 +30,32 @@ public class authorityDAO {
 			int i = matchNums2.split(matchNums2, '/').length;
 			//들어온 매칭넘버 수 만큼 배열 생성 
 			matchNums1 = new String[i];
-			userIds = new String[i];
 			
 			matchNums1 = matchNums2.split("/");
 			
+			int recruit;
 			
 			for(String num : matchNums1) { // matchNums1 = 매칭번호들
 				String SQL2 = "select user_id from match_request where match_number = ?";
+		        String SQL3 = "select recruit_person from match_info where match_number = ?";
 				i = 0;
 				
 				try {
 				    //DB 연결 
 					Connection conn1 = Capston_Connection.GetDB();
 					PreparedStatement ptstm = conn1.prepareStatement(SQL2);
-					ptstm.setString(1, num);
-					ResultSet rs1 = ptstm.executeQuery();
+					PreparedStatement ptstv = conn1.prepareStatement(SQL3);
 					
+					ptstm.setString(1, num);
+					ptstv.setString(1, num);
+					
+					
+					ResultSet rs1 = ptstm.executeQuery();
+					ResultSet rs2 = ptstm.executeQuery();
+					
+					rs2.next();
+					recruit = rs2.getInt(1);
+					userIds = new String[recruit];
 					
 					while(rs1.next()) {
 						//유저아이디 저장하는데에 배열로 저장 
@@ -53,10 +63,7 @@ public class authorityDAO {
 						//한 사이클 돌면 i증
 						i++;
 					}
-					
-					
-					
-					
+										
 					ptstn.close();
 				    
 					return userIds;
