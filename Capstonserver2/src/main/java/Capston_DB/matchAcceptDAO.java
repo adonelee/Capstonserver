@@ -23,7 +23,7 @@ public class matchAcceptDAO {
 			ptstm.setInt(1, member_code);
 			ptstm.setInt(2, Integer.parseInt(match_number));
 			ptstm.setString(3, user_id);
-			ptstm.executeQuery();
+			ptstm.executeUpdate();
 			ptstm.close();
 			
 			//delete메소드 호출위치
@@ -44,7 +44,7 @@ public class matchAcceptDAO {
 			PreparedStatement ptstn = conn.prepareStatement(SQL3);
 			ptstn.setInt(1, Integer.parseInt(match_number));
 			ptstn.setString(2, user_id);
-			ptstn.executeQuery();
+			ptstn.executeUpdate();
 			ptstn.close();
 		}catch(Exception e) {
 			System.out.println("delete에러 :" + e.getMessage());
