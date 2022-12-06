@@ -13,7 +13,7 @@ public class matchRefuseDAO {
 			PreparedStatement ptstn = conn.prepareStatement(SQL3);
 			ptstn.setInt(1, Integer.parseInt(match_number));
 			ptstn.setString(2, user_id);
-			ptstn.executeQuery();
+			ptstn.executeUpdate();
 			ptstn.close();
 			return "삭제성공";
 		}catch(Exception e) {
