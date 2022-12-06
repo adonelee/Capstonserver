@@ -47,7 +47,7 @@ public class authorityDAO {
 					
 					ptstm.setString(1, num);
 
-					ResultSet rs1 = ptstn.executeQuery();
+					ResultSet rs1 = ptstm.executeQuery();
 					
 					while(rs1.next()) {
 						//유저아이디 저장하는데에 배열로 저장 
@@ -56,7 +56,7 @@ public class authorityDAO {
 						i++;
 					}
 										
-					ptstn.close();
+					ptstm.close();
 				    
 					return userIds;
 					
