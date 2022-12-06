@@ -33,10 +33,11 @@ public class authorityDAO {
 			userIds = new String[i];
 			
 			matchNums1 = matchNums2.split("/");
-			i = 0;
 			
-			for(String num : matchNums1) {
+			
+			for(String num : matchNums1) { // matchNums1 = 매칭번호들
 				String SQL2 = "select user_id from match_request where match_number = ?";
+				i = 0;
 				
 				try {
 				    //DB 연결 
@@ -46,26 +47,29 @@ public class authorityDAO {
 					ResultSet rs1 = ptstm.executeQuery();
 					
 					
+					while(rs1.next()) {
+						//유저아이디 저장하는데에 배열로 저장 
+						userIds[i] = num + "&" + rs1.getString(1);
+						//한 사이클 돌면 i증
+						i++;
+					}
 					
-					rs1.next(); 
-					//유저아이디 저장하는데에 배열로 저장 
-					userIds[i] = num + "&" + rs1.getString(1);
-					//한 사이클 돌면 i증
-					i++;
+					
+					
 					
 					ptstn.close();
 				    
 					return userIds;
 					
 				}catch(Exception e) {
-					System.out.println(e.getMessage());
+					System.out.println("SQL2" + e.getMessage());
 					return userIds;
 					}
 			}
 			ptstn.close();	    
 			return userIds;
 		}catch(Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("SQL1" + e.getMessage());
 			return userIds;
 		}
 	}
@@ -104,7 +108,7 @@ public class authorityDAO {
 			return UserInfo;
 			
 		}catch(Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("SQL3" + e.getMessage());
 			return "검색실패";
 			}
 	}

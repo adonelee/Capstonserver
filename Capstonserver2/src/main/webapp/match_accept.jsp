@@ -8,7 +8,7 @@ String user_id = request.getParameter("user_id");
 
 System.out.println(match_number);
 
-String result = new matchAcceptDAO.accept_matching(match_number, user_id);
+String result = new matchAcceptDAO().accept_matching(match_number, user_id);
 System.out.println(result);
 out.print(result);
 %>

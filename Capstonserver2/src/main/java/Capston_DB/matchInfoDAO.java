@@ -37,13 +37,14 @@ public class matchInfoDAO {
 					+ "FROM match_info "
 					+ "JOIN match_member "
 					+ "ON match_info.match_number = match_member.match_number "
-					+ "WHERE match_member.user_id = 'adone'";
+					+ "WHERE match_member.user_id = ?";
 			
 			String matchlist = "";
 			try {
 			    //DB 연결 
 				Connection conn = Capston_Connection.GetDB();
 				PreparedStatement ptstn = conn.prepareStatement(SQL1);
+				ptstn.setString(1, user_id);
 				ResultSet rs = ptstn.executeQuery();
 				
 				while(rs.next()) {

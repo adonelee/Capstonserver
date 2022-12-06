@@ -8,7 +8,7 @@ String user_id = request.getParameter("user_id");
 
 System.out.println(match_number);
 
-String result = new matchRefuseDAO.delete_request(match_number, user_id);
+String result = new matchRefuseDAO().delete_request(match_number, user_id);
 System.out.println(result);
 out.print(result);
 %>
