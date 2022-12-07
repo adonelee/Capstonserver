@@ -4,12 +4,11 @@ import java.sql.*;
 
 public class matchInformationDAO{
 	
-	String matchInformation = "";
-	String ParticipantsInformation = "";
-	String[] ParticipantsInfo;
-	String PI;
+	
 	
 	public String getMatchInformation(int match_number) {
+		String matchInformation = "";
+		
 		String SQL1 = "select match_number, creater_id, match_title,"
 				+ " exercise_type, match_type, match_time, recruit_person,"
 				+ " match_sex, match_major from match_info where match_number = ?";
@@ -39,7 +38,18 @@ public class matchInformationDAO{
 		}
 	}
 	
+	
+	
+	
+	
+	
+	
+	
 	public String getParticipantsInformation(int match_number) {
+		String ParticipantsInformation = "";
+		String[] ParticipantsInfo;
+		String PI = "";
+		
 		String SQL1 = "select user_id from match_member where match_number = ?";
 		
 		try {
@@ -56,7 +66,7 @@ public class matchInformationDAO{
 				ParticipantsInformation += rs.getString(1);
 				ParticipantsInformation += "/";
 			}
-		
+			rs.close();
 			ptstn.close();
 			    
 		}catch(Exception e) {
@@ -70,13 +80,17 @@ public class matchInformationDAO{
 			int num = ParticipantsInfo.length;
 			
 			
-			for(int i=1; i<=num; i++) {
+			for(int i=0; i<num; i++) {
 				String SQL2 = "select user_name, user_phone, user_major from user where user_id = ?";
 				PreparedStatement ptstm = conn.prepareStatement(SQL2);
 				ptstm.setString(1, ParticipantsInfo[i]);
 				ResultSet rd = ptstm.executeQuery();
+				rd.next();
 				PI += rd.getString(1) + "," + rd.getString(2) + "," + rd.getString(3);
 				PI += "/";
+				
+				ptstm.close();
+				rd.close();
 				}
 			
 			return PI;			
