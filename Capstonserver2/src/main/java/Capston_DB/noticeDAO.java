@@ -27,21 +27,70 @@ public class noticeDAO {
 		return "보내기실패";
 	}
 	
-	
 	//새로운 메세지 수 호출
-	public int numberOfMsg(String myId, String call_time) {
-		String SQL2 = "SELECT count(message) "
+	public int numberOfMsg(String myId) {
+		String SQL2 = "SELECT count(is_new) "
 				+ "from notice "
-				+ "where myId = ? and send_time > ? ";
-		int result_number = 0;
+				+ "where myId = ? and is_new = true ";
 		
+		int result_number = 0;
+		try {
+			Connection conn = Capston_Connection.GetDB();
+			PreparedStatement ptstn = conn.prepareStatement(SQL2);
+			ptstn.setString(1, myId);
+			
+			ptstn.close();
+			
+		}catch(Exception e) {
+			System.out.println("count_newtice error"+e.getMessage());
+		}
 		return result_number;
 	}
 	
 	//알림 내용 호출
-	public String callNotice() {
+	public String callNotice(String myId) {
+		String SQL3 = "SELECT sendId, message, send_time "
+				+ "from notice "
+				+ "where recvId = ? ";
+		
+	    String SQL4 = "update notice set is_new = false where myId= ?";
+		
 		String notices="";
 		
+		try {
+			Connection conn = Capston_Connection.GetDB();
+			PreparedStatement ptstn = conn.prepareStatement(SQL3);
+			ptstn.setString(1, myId);
+			
+			ResultSet rs = ptstn.executeQuery();
+			
+			while(rs.next()) {
+				notices += rs.getString(1) + "," + rs.getString(2) + "," + rs.getString(3);
+				notices += "/";
+			}
+			
+			rs.close();
+			ptstn.close();
+			
+			try {
+				Connection comm = Capston_Connection.GetDB();
+				PreparedStatement ptstv = comm.prepareStatement(SQL4);
+				
+				
+				ptstv.setString(2, myId);
+				
+			    ptstv.executeUpdate();
+			    
+			    Statement state = comm.createStatement();
+				
+			    state.close();
+			    ptstv.close();
+			}catch(Exception e) {
+				System.out.println("update error"+e.getMessage());
+			}
+		}catch(Exception e) {
+			System.out.println("call_notice error"+e.getMessage());
+		}
 		return notices;
 	}
 }
