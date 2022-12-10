@@ -7,14 +7,33 @@ public class noticeDAO {
 	//알림 보내기 메소드
 	public String insert_notice(String sendId, String recvId, String msg, String send_time) {
 		Connection conn;
-		String SQL1= "INSERT INTO notice VALUES(?, ?, ?, ?, true)";
+		int notice_code = 0;
+		String SQL1 = "select MAX(notice_code) from notice";
 		try {
+		    //DB 연결 
 			conn = Capston_Connection.GetDB();
 			PreparedStatement ptstn = conn.prepareStatement(SQL1);
-			ptstn.setString(1, sendId);
-			ptstn.setString(2, recvId);
-			ptstn.setString(3, msg);
-			ptstn.setString(4, send_time);
+			ResultSet rs = ptstn.executeQuery();
+			
+			//매칭번호 
+			rs.next();
+			notice_code = rs.getInt(1) + 1;
+			PreparedStatement ptstm;
+			ptstn.close();}
+		catch(Exception e) {
+			System.out.println("insert_notice error"+e.getMessage());
+		}
+		
+		
+		String SQL2 = "INSERT INTO notice VALUES(?, ?, ?, ?, ?, true)";
+		try {
+			conn = Capston_Connection.GetDB();
+			PreparedStatement ptstn = conn.prepareStatement(SQL2);
+			ptstn.setInt(1, notice_code);
+			ptstn.setString(2, sendId);
+			ptstn.setString(3, recvId);
+			ptstn.setString(4, msg);
+			ptstn.setString(5, send_time);
 			ptstn.executeUpdate();
 			ptstn.close();
 			
@@ -53,7 +72,8 @@ public class noticeDAO {
 	public String callNotice(String myId) {
 		String SQL3 = "SELECT sendId, message, send_time "
 				+ "from notice "
-				+ "where recvId = ? ";
+				+ "where recvId = ? "
+				+ "order by notice_code desc";
 		
 	    String SQL4 = "update notice set is_new = false where recvId= ?";
 		
@@ -68,7 +88,7 @@ public class noticeDAO {
 			
 			while(rs.next()) {
 				notices += rs.getString(1) + "," + rs.getString(2) + "," + rs.getString(3);
-				notices += "/";
+				notices += "@";
 			}
 			
 			rs.close();
