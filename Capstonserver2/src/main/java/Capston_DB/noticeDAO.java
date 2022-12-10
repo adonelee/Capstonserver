@@ -7,7 +7,7 @@ public class noticeDAO {
 	//알림 보내기 메소드
 	public String insert_notice(String sendId, String recvId, String msg, String send_time) {
 		Connection conn;
-		String SQL1= "INSERT INTO notice VALUES(?, ?, ?, ?)";
+		String SQL1= "INSERT INTO notice VALUES(?, ?, ?, ?, true)";
 		try {
 			conn = Capston_Connection.GetDB();
 			PreparedStatement ptstn = conn.prepareStatement(SQL1);
@@ -31,7 +31,7 @@ public class noticeDAO {
 	public int numberOfMsg(String myId) {
 		String SQL2 = "SELECT count(is_new) "
 				+ "from notice "
-				+ "where myId = ? and is_new = true ";
+				+ "where recvId = ? and is_new = true ";
 		
 		int result_number = 0;
 		try {
@@ -47,13 +47,15 @@ public class noticeDAO {
 		return result_number;
 	}
 	
+	
+	
 	//알림 내용 호출
 	public String callNotice(String myId) {
 		String SQL3 = "SELECT sendId, message, send_time "
 				+ "from notice "
 				+ "where recvId = ? ";
 		
-	    String SQL4 = "update notice set is_new = false where myId= ?";
+	    String SQL4 = "update notice set is_new = false where recvId= ?";
 		
 		String notices="";
 		
@@ -77,7 +79,7 @@ public class noticeDAO {
 				PreparedStatement ptstv = comm.prepareStatement(SQL4);
 				
 				
-				ptstv.setString(2, myId);
+				ptstv.setString(1, myId);
 				
 			    ptstv.executeUpdate();
 			    

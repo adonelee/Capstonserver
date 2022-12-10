@@ -3,11 +3,10 @@
  request.setCharacterEncoding("UTF-8");
 
 String myId= request.getParameter("myId");
-String call_time = request.getParameter("call_time");
 
-System.out.println(myId + "&&" + call_time);
+System.out.println(myId );
 
-String result = new noticeDAO().insert_notice(sendId, recvId, msg, send_time);
+String result = new noticeDAO().callNotice(myId);
 System.out.println(result);
 out.print(result);
 %>
