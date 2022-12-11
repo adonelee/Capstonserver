@@ -11,16 +11,9 @@ int match_persons = Integer.parseInt(request.getParameter("match_persons"));
 String match_sex = request.getParameter("match_sex");
 String match_major = request.getParameter("match_major");
 
-System.out.println(match_title);
-System.out.println(match_type);
-System.out.println(match_time);
-System.out.println(match_persons);
-System.out.println(match_sex);
-System.out.println(match_major);
-
 
 String result = new addMatchingDAO().AddMatching(match_owner, match_title, exercise_type,
 		match_type, match_time, match_persons, match_sex, match_major);
-System.out.println(result);
+
 out.print(result);
 %>

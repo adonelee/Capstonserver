@@ -9,13 +9,7 @@ String sex = request.getParameter("sex");
 String major = request.getParameter("major");
 String phone = request.getParameter("phone");
 
-System.out.println(id);
-System.out.println(pw);
-System.out.println(name);
-System.out.println(sex);
-System.out.println(phone);
-
 String result = new signupDAO().SignUP(id,pw,name,sex,major,phone);
-System.out.println(result);
+
 out.print(result);
 %>

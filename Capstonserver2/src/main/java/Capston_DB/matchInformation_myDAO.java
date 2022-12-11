@@ -12,7 +12,7 @@ public String getParticipantsInformation(int match_number) {
 		
 		
 		String SQL1 = "select user_id from match_member where match_number = ?";
-		System.out.println("testtesttest = " + match_number);
+		
 		try {
 		    //DB 연결 
 			Connection conn = Capston_Connection.GetDB();

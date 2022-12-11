@@ -5,9 +5,7 @@
 String match_number = request.getParameter("match_number");
 String user_id = request.getParameter("member_id");
 
-System.out.println(match_number + "&&" + user_id);
-
 String result = new matchAcceptDAO().accept_matching(match_number, user_id);
-System.out.println(result);
+
 out.print(result);
 %>

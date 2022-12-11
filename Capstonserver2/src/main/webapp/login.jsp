@@ -4,10 +4,7 @@
 
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
-	
-	System.out.println(id);
-	System.out.println(pw);
-	
+		
 	String result = new loginDAO().login(id,pw);
 	
 	out.print(result);

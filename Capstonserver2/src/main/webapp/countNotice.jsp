@@ -4,9 +4,7 @@
 
 String myId= request.getParameter("myId");
 
-System.out.println(myId);
-
 int result = new noticeDAO().numberOfMsg(myId);
-System.out.println(""+result);
+
 out.print(""+result);
 %>

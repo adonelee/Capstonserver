@@ -3,12 +3,10 @@
  request.setCharacterEncoding("UTF-8");
 
 String match_number = request.getParameter("match_number");
+
 String user_id = request.getParameter("member_id");
 
-
-System.out.println(match_number);
-
 String result = new matchRefuseDAO().delete_request(match_number, user_id);
-System.out.println(result);
+
 out.print(result);
 %>

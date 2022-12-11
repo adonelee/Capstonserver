@@ -4,10 +4,7 @@
 
 String user_id = request.getParameter("user_id");
 
-System.out.println(user_id);
-
 String result = new matchInfoDAO().SearchMatching(user_id);
 
-System.out.println(result);
 out.print(result);
 %>

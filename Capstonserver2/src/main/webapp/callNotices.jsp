@@ -4,9 +4,7 @@
 
 String myId= request.getParameter("myId");
 
-System.out.println(myId );
-
 String result = new noticeDAO().callNotice(myId);
-System.out.println(result);
+
 out.print(result);
 %>
