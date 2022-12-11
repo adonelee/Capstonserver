@@ -7,6 +7,6 @@
  System.out.println(match_number);
  
  String result = new matchInformationDAO().getParticipantsInformation(match_number);
- System.out.println(result);
+ System.out.println("asdfasdf" + result);
  out.print(result);
 %>

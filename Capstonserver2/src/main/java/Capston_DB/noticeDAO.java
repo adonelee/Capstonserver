@@ -48,13 +48,14 @@ public class noticeDAO {
 	
 	//새로운 메세지 수 호출
 	public int numberOfMsg(String myId) {
+		Connection conn;
 		String SQL2 = "SELECT count(is_new) "
 				+ "from notice "
 				+ "where recvId = ? and is_new = true ";
 		
 		int result_number = 0;
 		try {
-			Connection conn = Capston_Connection.GetDB();
+			conn = Capston_Connection.GetDB();
 			PreparedStatement ptstn = conn.prepareStatement(SQL2);
 			ptstn.setString(1, myId);
 			
@@ -63,6 +64,7 @@ public class noticeDAO {
 			result_number = rs.getInt(1);
 			
 			ptstn.close();
+			rs.close();
 			
 		}catch(Exception e) {
 			System.out.println("count_newtice error"+e.getMessage());
