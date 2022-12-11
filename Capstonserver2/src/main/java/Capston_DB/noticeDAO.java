@@ -58,6 +58,10 @@ public class noticeDAO {
 			PreparedStatement ptstn = conn.prepareStatement(SQL2);
 			ptstn.setString(1, myId);
 			
+			ResultSet rs = ptstn.executeQuery();
+			rs.next();
+			result_number = rs.getInt(1);
+			
 			ptstn.close();
 			
 		}catch(Exception e) {
